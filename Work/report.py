@@ -26,3 +26,15 @@ def read_prices(filename):
             except IndexError:
                 pass
     return prices
+
+portfolio = read_portfolio('Data/portfolio.csv')
+prices = read_prices('Data/prices.csv')
+
+bought = 0.0
+current = 0.0
+for s in portfolio:
+        bought += s['shares']*s['price']
+        current += s['shares']*prices[s['name']]
+gain = current - bought
+print(f"Current value: {current:0.2f}")
+print(f"Gain/loss: {gain:0.2f}")
