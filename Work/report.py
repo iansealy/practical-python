@@ -3,6 +3,7 @@
 # Exercise 2.4
 
 import csv
+import sys
 
 def read_portfolio(filename):
     portfolio = []
@@ -10,8 +11,13 @@ def read_portfolio(filename):
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
         headers = next(rows)
-        for row in rows:
-            holding = { "name" : row[0], "shares" : int(row[1]), "price" : float(row[2]) }
+        for rowno, row in enumerate(rows, start=1):
+            holding = dict(zip(headers, row))
+            try:
+                holding['shares'] = int(holding['shares'])
+                holding['price'] = float(holding['price'])
+            except ValueError:
+                print(f'Row {rowno}: Bad row: {row}')
             portfolio.append(holding)
     return portfolio
 
@@ -34,8 +40,15 @@ def make_report(portfolio, prices):
         report.append((s['name'], s['shares'], prices[s['name']], change))
     return report
 
-portfolio = read_portfolio('Data/portfolio.csv')
-prices = read_prices('Data/prices.csv')
+if len(sys.argv) == 3:
+    portfolio_filename = sys.argv[1]
+    prices_filename = sys.argv[2]
+else:
+    portfolio_filename = 'Data/portfolio.csv'
+    prices_filename = 'Data/prices.csv'
+
+portfolio = read_portfolio(portfolio_filename)
+prices = read_prices(prices_filename)
 report = make_report(portfolio, prices)
 
 headers = ('Name', 'Shares', 'Price', 'Change')
