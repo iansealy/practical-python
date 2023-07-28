@@ -40,29 +40,16 @@ def make_report(portfolio, prices):
         report.append((s['name'], s['shares'], prices[s['name']], change))
     return report
 
-if len(sys.argv) == 3:
-    portfolio_filename = sys.argv[1]
-    prices_filename = sys.argv[2]
-else:
-    portfolio_filename = 'Data/portfolio.csv'
-    prices_filename = 'Data/prices.csv'
-
-portfolio = read_portfolio(portfolio_filename)
-prices = read_prices(prices_filename)
-report = make_report(portfolio, prices)
-
-headers = ('Name', 'Shares', 'Price', 'Change')
-print(' '.join([f'{h:>10s}' for h in headers]))
-print(' '.join(['-' * 10 for _ in range(4)]))
-for name, shares, price, change in report:
+def print_report(report):
+    headers = ('Name', 'Shares', 'Price', 'Change')
+    print(' '.join([f'{h:>10s}' for h in headers]))
+    print(' '.join(['-' * 10 for _ in range(4)]))
+    for name, shares, price, change in report:
         price = f'${price:0.2f}'
         print(f'{name:>10s} {shares:>10d} {price:>10} {change:>10.2f}')
+     
 
-bought = 0.0
-current = 0.0
-for s in portfolio:
-        bought += s['shares']*s['price']
-        current += s['shares']*prices[s['name']]
-gain = current - bought
-print(f"Current value: {current:0.2f}")
-print(f"Gain/loss: {gain:0.2f}")
+portfolio = read_portfolio('Data/portfolio.csv')
+prices = read_prices('Data/prices.csv')
+report = make_report(portfolio, prices)
+print_report(report)
