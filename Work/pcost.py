@@ -2,7 +2,6 @@
 #
 # Exercise 1.27
 
-import csv
 import sys
 
 import report
