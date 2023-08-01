@@ -12,6 +12,9 @@ def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=","
     with open(filename) as f:
         rows = csv.reader(f, delimiter=delimiter)
 
+        if not has_headers and select:
+            raise RuntimeError("select argument requires column headers")
+
         # Read the file headers
         if has_headers:
             headers = next(rows)
