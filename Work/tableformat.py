@@ -70,3 +70,10 @@ def create_formatter(name):
     else:
         raise RuntimeError(f"Unknown format {name}")
     return formatter
+
+
+def print_table(portfolio, attributes, formatter):
+    formatter.headings(attributes)
+    for s in portfolio:
+        rowdata = [str(getattr(s, attr)) for attr in attributes]
+        formatter.row(rowdata)
