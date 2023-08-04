@@ -53,7 +53,7 @@ def print_report(reportdata, formatter):
         formatter.row(rowdata)
 
 
-def portfolio_report(portfoliofile, pricefile):
+def portfolio_report(portfoliofile, pricefile, fmt="txt"):
     """
     Make a stock report given portfolio and price data files.
     """
@@ -65,7 +65,7 @@ def portfolio_report(portfoliofile, pricefile):
     report = make_report_data(portfolio, prices)
 
     # Print it out
-    formatter = tableformat.HTMLTableFormatter()
+    formatter = tableformat.create_formatter(fmt)
     print_report(report, formatter)
 
 
