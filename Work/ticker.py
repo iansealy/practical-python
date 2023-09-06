@@ -2,6 +2,8 @@
 
 import csv
 
+import report
+import tableformat
 from follow import follow
 
 
@@ -32,6 +34,18 @@ def parse_stock_data(lines):
     rows = convert_types(rows, [str, float, float])
     rows = make_dicts(rows, ["name", "price", "change"])
     return rows
+
+
+def ticker(portfile, logfile, fmt):
+    portfolio = report.read_portfolio(portfile)
+    formatter = tableformat.create_formatter(fmt)
+    formatter.headings(["Name", "Price", "Change"])
+    lines = follow(logfile)
+    rows = parse_stock_data(lines)
+    rows = filter_symbols(rows, portfolio)
+    for row in rows:
+        rowdata = [row["name"], f"{row['price']:0.2f}", f"{row['change']:0.2f}"]
+        formatter.row(rowdata)
 
 
 if __name__ == "__main__":
