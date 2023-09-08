@@ -3,7 +3,6 @@
 import fileparse
 import tableformat
 from portfolio import Portfolio
-from stock import Stock
 
 
 def read_portfolio(filename, **opts):
