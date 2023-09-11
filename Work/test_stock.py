@@ -2,7 +2,7 @@
 
 import unittest
 
-import stock
+from . import stock
 
 
 class TestStock(unittest.TestCase):
